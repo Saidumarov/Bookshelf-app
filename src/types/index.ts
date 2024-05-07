@@ -11,8 +11,8 @@ export interface Data {
       id: number;
       author: string;
       title: string;
-      pages: number;
-      published: number;
+      pages: string;
+      published: string;
     };
     status: number;
   };
@@ -23,13 +23,22 @@ export interface getData {
     id: number;
     author: string;
     title: string;
-    pages: number;
-    published: number;
+    pages: string;
+    published: string;
+    isbn: string;
   };
   status: number;
 }
 
 //
+export interface Book {
+  id: string;
+  title: string;
+  author: string;
+  pages: string;
+  published: string;
+  isbn: string;
+}
 
 export interface ServiceConfig {
   data: getData[];
@@ -39,4 +48,5 @@ export interface ServiceConfig {
   getBooks: (signature: string) => Promise<void>;
   deleteBook: (id: number, signature: string) => Promise<void>;
   addBook: (data: { isbn: string }, signature: string) => Promise<void>;
+  updateBook: (signature: string, data: Book) => Promise<void>;
 }
