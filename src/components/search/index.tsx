@@ -2,7 +2,20 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 import "./index.scss";
 import img from "../../assets/images/Frame 75.png";
 import SearchIcon from "@mui/icons-material/Search";
+import { useState } from "react";
+import useServiceStore from "../../app/bookSlice";
+import md5 from "md5";
 const Search = () => {
+  const [titleSearch, settitleSearch] = useState("");
+  const { searchBook } = useServiceStore();
+
+  const handleClik = () => {
+
+    const userSecret = "MyUserSecret";
+    const stringToSign = `GET/books${userSecret}`;
+    const signature = md5(stringToSign);
+    searchBook(signature, titleSearch);
+  };
   return (
     <div className="search">
       <Typography
@@ -20,8 +33,9 @@ const Search = () => {
           id="outlined-basic"
           label="Adiblar, kitoblar, audiolar, maqolalar..."
           variant="outlined"
+          onChange={(e) => settitleSearch(e.target.value)}
         />
-        <Button>
+        <Button onClick={handleClik}>
           <img src={img} alt="" />
           <span className="searchIcon">
             <SearchIcon

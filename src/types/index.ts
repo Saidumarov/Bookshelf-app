@@ -49,4 +49,5 @@ export interface ServiceConfig {
   deleteBook: (id: number, signature: string) => Promise<void>;
   addBook: (data: { isbn: string }, signature: string) => Promise<void>;
   updateBook: (signature: string, data: Book) => Promise<void>;
+  searchBook: (signature: string, title: string) => Promise<void>;
 }

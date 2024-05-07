@@ -81,6 +81,24 @@ const useServiceStore = create<ServiceConfig>((set) => ({
       set({ loading: false });
     }
   },
+  searchBook: async (signature, title) => {
+    set({ loading: true });
+    try {
+      const res = await axios.get(`${API_BASE_URL}/${title}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Key: "MyUserKey",
+          Sign: signature,
+        },
+      });
+      const getdata = await res?.data;
+      set({ data: getdata?.data, error: "" });
+    } catch (error) {
+      set({ error: error });
+    } finally {
+      set({ loading: false });
+    }
+  },
 }));
 
 export default useServiceStore;
