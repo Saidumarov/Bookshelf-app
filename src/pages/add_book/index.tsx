@@ -9,37 +9,21 @@ import "./index.scss";
 import { useState } from "react";
 import md5 from "md5";
 import { useNavigate } from "react-router-dom";
+import useServiceStore from "../../app/bookSlice";
 
 const AddBook = () => {
   const [isbn, setIsbn] = useState("");
-  const [loading, setLoading] = useState(false);
   const root = useNavigate();
+  const { data, loading, error, addBook } = useServiceStore();
 
   const onSubmit = async () => {
     const book = { isbn };
     const userSecret = "MyUserSecret";
     const stringToSign = `POST/books${JSON.stringify(book)}${userSecret}`;
     const signature = md5(stringToSign);
-    setLoading(true);
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Key: "MyUserKey",
-        Sign: signature,
-      },
-      body: JSON.stringify(book),
-    };
     try {
-      const response = await fetch(
-        "https://no23.lavina.tech/books",
-        requestOptions
-      );
-      const data = await response.json();
-      if (data) {
-        setLoading(false);
-        root("/");
-      }
+      addBook(book, signature);
+      root("/");
     } catch (error) {
       console.error("Error:", error);
     }
