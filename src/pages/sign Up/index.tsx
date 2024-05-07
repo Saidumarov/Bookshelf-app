@@ -1,16 +1,55 @@
-import { Button, Container, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Container,
+  TextField,
+  Typography,
+} from "@mui/material";
 import "./index.scss";
 import SignUpImg from "../../assets/images/Rectangle 1.png";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { FormData } from "../../types";
+import { useSignUpMutation } from "../../app/api";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { SignUpFormData } from "../../types";
 
 const SignUp = () => {
-  const { register, handleSubmit, reset } = useForm<FormData>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    reset,
+  } = useForm();
+  const [signUp, { isLoading }] = useSignUpMutation();
 
-  const onSubmit: SubmitHandler<FormData> = (formData) => {
-    console.log(formData);
-    reset();
+
+  const url = window.location.href;
+  const router = useNavigate();
+
+  useEffect(() => {
+    setValue("key", "MyUserKey");
+    setValue("secret", "MyUserSecret");
+  }, [setValue]);
+
+  const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
+    try {
+      const { data: responseData } = await signUp(data).unwrap();
+      localStorage.setItem("user", JSON.stringify(responseData));
+      reset();
+      router("/");
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      router("/");
+    }
+  }, [url]);
+
   return (
     <Container maxWidth="lg">
       <div className="sign_up_wrapper">
@@ -29,6 +68,7 @@ const SignUp = () => {
               sx={{ marginTop: "20px" }}
               {...register("name", { required: true })}
             />
+            {errors.name && <span className="error">Ismingiz kriting</span>}
             <TextField
               type="email"
               id="outlined-basic"
@@ -37,7 +77,10 @@ const SignUp = () => {
               sx={{ marginTop: "20px" }}
               {...register("email", { required: true })}
             />
-            <Button type="submit">Keyingi qadam</Button>
+            {errors.email && <span className="error">Emailni kriting</span>}
+            <Button type="submit">
+              {isLoading ? <CircularProgress /> : "Ro’yxatdan o’tish"}
+            </Button>
           </form>
         </div>
       </div>

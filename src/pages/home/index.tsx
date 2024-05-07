@@ -3,8 +3,40 @@ import Banner from "../../components/shared/banner/banner";
 import Search from "../../components/search";
 import CardComponent from "../../components/shared/card";
 import "./index.scss";
+import { useEffect, useState } from "react";
+import md5 from "md5";
 const Home = () => {
-  const aar = [{}, {}, {}, {}, {}, {}, {}, {}];
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      const userSecret = "MyUserSecret";
+      const stringToSign = `GET/books${userSecret}`;
+      const signature = md5(stringToSign);
+
+      const requestOptions = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Key: "MyUserKey", // Foydalanuvchi kaliti
+          Sign: signature,
+        },
+      };
+
+      try {
+        const response = await fetch(
+          "https://no23.lavina.tech/books",
+          requestOptions
+        );
+        const data = await response.json();
+        setBooks(data?.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    fetchBooks();
+  }, []);
+
   return (
     <Container sx={{ position: "relative" }} maxWidth={"lg"}>
       <Banner />
@@ -19,8 +51,8 @@ const Home = () => {
         Asosiy kategoriyalar
       </Typography>
       <Grid container spacing={2} sx={{ paddingBottom: "100px" }}>
-        {aar?.map((_, i) => (
-          <CardComponent key={i} />
+        {books?.map((el, i) => (
+          <CardComponent key={i} data={el} />
         ))}
       </Grid>
     </Container>

@@ -8,7 +8,19 @@ import { Box, Button, Grid } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useNavigate } from "react-router-dom";
-const CardComponent = () => {
+const CardComponent = ({
+  data,
+}: {
+  data: {
+    book: {
+      author: string;
+      title: string;
+      pages: number;
+      published: number;
+    };
+    status: number;
+  };
+}) => {
   const root = useNavigate();
   return (
     <Grid item xs={6} md={3} sm={4}>
@@ -22,11 +34,14 @@ const CardComponent = () => {
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              Lizard
+              {data?.book?.author}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Lizards are a widespread group of squamate reptiles, with over
-              6,000 species, ranging across all continents except Antarctica
+              {data?.book?.title}
+              <br />
+              Sahifa:{data?.book?.pages}
+              <br />
+              Chop etilgan : {data?.book?.published}
             </Typography>
             <div className="dis_">
               <Button variant="contained" color="error">
