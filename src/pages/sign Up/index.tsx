@@ -25,15 +25,16 @@ const SignUp = () => {
 
   const url = window.location.href;
   const router = useNavigate();
+  const generateRandomKey = () => {
+    return Math.floor(Math.random() * 10e12).toString();
+  };
 
   useEffect(() => {
-    setValue("key", "MyUserKey");
+    setValue("key", generateRandomKey());
     setValue("secret", "MyUserSecret");
   }, [setValue]);
 
   const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
-    console.log(data);
-
     try {
       const { data: responseData } = await signUp(data).unwrap();
       localStorage.setItem("user", JSON.stringify(responseData));
