@@ -18,10 +18,21 @@ export interface Data {
   };
 }
 
+export interface getData {
+  book: {
+    id: number;
+    author: string;
+    title: string;
+    pages: number;
+    published: number;
+  };
+  status: number;
+}
+
 //
 
 export interface ServiceConfig {
-  data: [];
+  data: getData[];
   loading: boolean;
   error: any;
   render: any;

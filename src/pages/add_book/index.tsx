@@ -14,7 +14,7 @@ import useServiceStore from "../../app/bookSlice";
 const AddBook = () => {
   const [isbn, setIsbn] = useState("");
   const root = useNavigate();
-  const { data, loading, error, addBook } = useServiceStore();
+  const { loading, addBook } = useServiceStore();
 
   const onSubmit = async () => {
     const book = { isbn };
@@ -23,7 +23,9 @@ const AddBook = () => {
     const signature = md5(stringToSign);
     try {
       addBook(book, signature);
-      root("/");
+      if (!loading) {
+        root("/");
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -41,6 +43,7 @@ const AddBook = () => {
             sx={{ marginTop: "20px" }}
             onChange={(e) => setIsbn(e.target.value)}
             type="number"
+            required
           />
           <Button type="submit">
             {loading ? <CircularProgress /> : "Qo'shish"}

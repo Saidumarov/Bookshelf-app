@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import "./index.scss";
 import SignUpImg from "../../assets/images/Rectangle 1.png";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useSignUpMutation } from "../../app/api";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +23,6 @@ const SignUp = () => {
   } = useForm();
   const [signUp, { isLoading }] = useSignUpMutation();
 
-
   const url = window.location.href;
   const router = useNavigate();
 
@@ -32,7 +31,7 @@ const SignUp = () => {
     setValue("secret", "MyUserSecret");
   }, [setValue]);
 
-  const onSubmit: SubmitHandler<SignUpFormData> = async (data) => {
+  const onSubmit = async (data: SignUpFormData) => {
     try {
       const { data: responseData } = await signUp(data).unwrap();
       localStorage.setItem("user", JSON.stringify(responseData));

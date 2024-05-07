@@ -1,26 +1,17 @@
 import { Button, Container, TextField, Typography } from "@mui/material";
 import "./index.scss";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { FormData } from "../../types";
 
 const EditBook = () => {
-  const { register, handleSubmit, reset } = useForm<FormData>();
-
-  const onSubmit: SubmitHandler<FormData> = (formData) => {
-    console.log(formData);
-    reset();
-  };
   return (
     <Container>
       <div className="book_form_w">
         <Typography variant="h4">Kitobni tahrilash</Typography>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form>
           <TextField
             id="outlined-basic"
             label="Ismingiz"
             variant="outlined"
             sx={{ marginTop: "20px" }}
-            {...(register("name"), { required: true })}
           />
           <TextField
             type="email"
@@ -28,7 +19,6 @@ const EditBook = () => {
             label="Email"
             variant="outlined"
             sx={{ marginTop: "20px" }}
-            {...register("email", { required: true })}
           />
           <TextField
             type="email"
@@ -36,7 +26,6 @@ const EditBook = () => {
             label="Email"
             variant="outlined"
             sx={{ marginTop: "20px" }}
-            {...register("email", { required: true })}
           />
           <TextField
             type="email"
@@ -44,7 +33,6 @@ const EditBook = () => {
             label="Email"
             variant="outlined"
             sx={{ marginTop: "20px" }}
-            {...register("email", { required: true })}
           />
           <Button type="submit">Saqlash</Button>
         </form>

@@ -6,8 +6,9 @@ import "./index.scss";
 import { useEffect } from "react";
 import md5 from "md5";
 import useServiceStore from "../../app/bookSlice";
+import LoadingProduct from "../../components/loading";
 const Home = () => {
-  const { render, data, loading, error, getBooks } = useServiceStore();
+  const { render, data, loading, getBooks } = useServiceStore();
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -25,6 +26,7 @@ const Home = () => {
 
   return (
     <Container sx={{ position: "relative" }} maxWidth={"lg"}>
+      {/* {loading ? <LoadingProduct /> : null} */}
       <Banner />
       <Search />
       <Typography
