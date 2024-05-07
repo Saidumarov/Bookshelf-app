@@ -6,9 +6,9 @@ import "./index.scss";
 import { useEffect } from "react";
 import md5 from "md5";
 import useServiceStore from "../../app/bookSlice";
-import LoadingProduct from "../../components/loading";
+// import LoadingProduct from "../../components/loading";
 const Home = () => {
-  const { render, data, loading, getBooks } = useServiceStore();
+  const { render, data, getBooks } = useServiceStore();
 
   useEffect(() => {
     const fetchBooks = async () => {
